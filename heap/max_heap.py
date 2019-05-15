@@ -12,10 +12,10 @@ class Heap:
     pass
 
   def get_max(self):
-    pass
+    return self.storage[0]
 
   def get_size(self):
-    pass
+    return len(self.storage)
 
   def _bubble_up(self, index):
     while index > 0:
@@ -28,3 +28,4 @@ class Heap:
 
   def _sift_down(self, index):
     pass
+
