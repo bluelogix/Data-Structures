@@ -44,25 +44,86 @@ class DoublyLinkedList:
     return self.length
 
   def add_to_head(self, value):
-    pass
+    new_node = ListNode(value)
+    if self.length == 0:
+      self.head = new_node
+      self.tail = new_node
+    else:
+      self.head.insert_before(value)
+      self.head = self.head.prev
 
   def remove_from_head(self):
-    pass
+    prev_head = self.head
+    if self.length == 0:
+      return
+    else:
+      new_head = self.head.next
+      self.head.delete()
+      self.head = new_head
+      self.tail = self.tail if self.head is not None else None
+      self.length -= 1 
+    return prev_head.value if prev_head is not None else prev_head
 
   def add_to_tail(self, value):
-    pass
+    new_node = ListNode(value, None, None)
+    self.length += 1
+    if not self.tail and not self.head:
+      self.tail = new_node
+      self.head = new_node
 
   def remove_from_tail(self):
-    pass
+    if not self.head and not self.tail:
+      return
+    self.length -= 1
+    if self.head == self.tail:
+      current_tail = self.tail
+      self.head = None
+      self.tail = None
+    current_tail = self.tail
+    self.tail = self.tail.prev
+    self.tail.next = None
+    return current_tail.value
 
   def move_to_front(self, node):
-    pass
+    if node is self.head:
+      return 
+    value = node.value
+    if node is self.tail:
+      self.remove_from_tail()
+    else:
+      node.delete()
+      self.length -= 1
+    self.add_to_head(value)
 
   def move_to_end(self, node):
-    pass
+    if self.length > 1 and node != self.tail:
+      current_node = node
+      node.delete()
+      self.tail.insert_after(current_node.value)
+      self.tail = self.tail.next
+      self.head = self.head if node != self.head else current_node.next
 
   def delete(self, node):
-    pass
+    self.length -= 1 
+    if not self.head and not self.tail:
+      return
+    if self.head == self.tail:
+      self.head = None
+      self.tail = None
+    elif self.head == node:
+      self.head = node.next
+      node.delete()
+    else:
+      node.delete()
+
     
   def get_max(self):
-    pass
+    if not self.head:
+      return None
+    max_val = self.head.value
+    current = self.head
+    while current:
+      if current.value > max_val:
+        max_val = current.value
+      current = current.next
+    return max_val
